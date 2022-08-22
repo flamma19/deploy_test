@@ -28,30 +28,8 @@ blocks:
           commands:
             - cd martor_demo
             - python manage.py check --deploy
-  - name: Update DockerHub
-    task:
-      secrets:
-        - name: dockerhub
-      prologue:
-        commands:
-          - sem-version python 3.9
-          - checkout
-          - cache restore
-          - mkdir -p .pip_cache
-          - pip install --cache-dir .pip_cache -r requirements.txt
-          - cd martor_demo
-          - 'python manage.py makemigrations '
-          - python manage.py migrate
-          - cd ..
-      jobs:
-        - name: Dockerize
-          commands:
-            - 'echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin'
-            - 'docker pull $DOCKER_USERNAME/django-markdown-editor:latest || true'
-            - 'docker build --cache-from=$DOCKER_USERNAME/django-markdown-editor:latest -t $DOCKER_USERNAME/django-markdown-editor:latest .'
-            - 'docker push $DOCKER_USERNAME/django-markdown-editor:latest'
 promotions:
   - name: Dockerize
     pipeline_file: pipeline_2.yml
     auto_promote:
-      when: branch = 'master' AND result = 'passed'
+      when: branch = 'main' AND result = 'passed'
