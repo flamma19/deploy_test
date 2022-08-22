@@ -11,9 +11,9 @@ blocks:
         - name: update dockerhub
           commands:
             - 'echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin'
-            - 'docker pull $DOCKER_USERNAME/django-markdown-editor:latest || true'
-            - 'docker build --cache-from=$DOCKER_USERNAME/django-markdown-editor:latest -t $DOCKER_USERNAME/django-markdown-editor:latest .'
-            - 'docker push $DOCKER_USERNAME/django-markdown-editor:latest'
+            - 'docker pull $DOCKER_USERNAME/deploy_test:latest || true'
+            - 'docker build --cache-from=$DOCKER_USERNAME/deploy_test:latest -t $DOCKER_USERNAME/deploy_test:latest .'
+            - 'docker push $DOCKER_USERNAME/deploy_test:latest'
       secrets:
         - name: dockerhub
       prologue:
